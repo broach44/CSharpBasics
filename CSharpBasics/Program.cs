@@ -15,59 +15,110 @@ namespace CSharpBasics
 
              ");
 
-            Console.WriteLine("What would you like to do today?  Type in * if you would like to multiply and ^ if you would like to square the list of numbers:");
+            Console.WriteLine(@"
+    What would you like to do today?
+
+    Type in a character for type of math you would like to use.  
+    * = Multiply all numbers together
+    ^ = Square each number in list
+    + = Add the string of numbers
+    - = Subtract the numbers
+    / = Divide the numbers
+ 
+    ");
             var mathMethodToUse = Console.ReadLine();
 
-            // Squares
-            if (mathMethodToUse == "^")
+            Console.WriteLine("Enter the numbers you want to use, separate with commas (**NO SPACES!**)");
+            var numbersToMathString = Console.ReadLine();
+            var numberToMathList = numbersToMathString.Split(",");
+
+            switch (mathMethodToUse)
             {
-                Console.WriteLine("Please enter some numbers you would like to square separated by a comma (NO SPACES!)");
-                var numbersToSquareString = Console.ReadLine();
-                var numberToSquareList = numbersToSquareString.Split(",");
+                // Squares
+                case "^":
+                    var squareOutput = "";
 
-                var squareOutput = "";
-
-                foreach (var number in numberToSquareList)
-                {
-                    var numToSquare = int.Parse(number);
-                    var result = numToSquare * numToSquare;
-                    squareOutput += ($"{result.ToString()},");
-                }
-
-                squareOutput = squareOutput.Remove(squareOutput.Length - 1);
-
-                Console.WriteLine($"Result is: {squareOutput}");
-            }
-            else if (mathMethodToUse == "*")
-            {
-
-
-                // Multiplication
-
-                Console.WriteLine("Please enter some numbers you would like to multiply separated by a comma (NO SPACES!):");
-                var numberStringInput = Console.ReadLine();
-
-                string[] numberStringList = numberStringInput.Split(",");
-
-                var finalOutput = 0;
-
-                foreach (var numberString in numberStringList)
-                {
-                    var result = int.Parse(numberString);
-                    if (finalOutput == 0)
+                    foreach (var num in numberToMathList)
                     {
-                        finalOutput = result;
+                        var numToSquare = int.Parse(num);
+                        var result = numToSquare * numToSquare;
+                        squareOutput += ($"{result.ToString()},");
                     }
-                    else
+
+                    squareOutput = squareOutput.Remove(squareOutput.Length - 1);
+
+                    Console.WriteLine($"Result is: {squareOutput}");
+                    break;
+
+                // Multiply
+                case "*":
+                    var finalOutput = 0;
+
+                    foreach (var numberString in numberToMathList)
                     {
-                        finalOutput *= result;
+                        var result = int.Parse(numberString);
+                        if (finalOutput == 0)
+                        {
+                            finalOutput = result;
+                        }
+                        else
+                        {
+                            finalOutput *= result;
+                        }
                     }
-                }
-                Console.WriteLine($"The final result is:  {finalOutput}");
-            }
-            else
-            {
-                Console.WriteLine("You did not enter a valid character, sorry, no math for you today...");
+                    Console.WriteLine($"Result is:  {finalOutput}");
+                    break;
+
+                // Addition
+                case "+":
+                    var additionOutput = 0;
+
+                    foreach (var numberString in numberToMathList)
+                    {
+                        additionOutput += int.Parse(numberString);
+                    }
+                    Console.WriteLine($"Result is: {additionOutput}");
+                    break;
+
+                // Subtraction
+                case "-":
+                    var subtractionOutput = 0;
+                    foreach (var numberString in numberToMathList)
+                    {
+                        if (subtractionOutput == 0)
+                        {
+                            subtractionOutput = int.Parse(numberString);
+                        }
+                        else
+                        {
+                            subtractionOutput -= int.Parse(numberString);
+                        }
+                    
+                    }
+                    Console.WriteLine($"Result is: {subtractionOutput}");
+                    break;
+
+                // Division
+                case "/":
+                    var divisionOutput = 0;
+                    foreach (var numberString in numberToMathList)
+                    {
+                        if (divisionOutput == 0)
+                        {
+                            divisionOutput = int.Parse(numberString);
+                        }
+                        else
+                        {
+                            divisionOutput /= int.Parse(numberString);
+                        }
+                    }
+                    Console.WriteLine($"Result is: {divisionOutput}");
+                    break;
+
+                // Capture any error in math type selection
+                default:
+                    Console.WriteLine("You did not enter a valid character, sorry, no math for you today...");
+                    break;
             }
 
             Console.ReadLine();
